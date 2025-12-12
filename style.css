@@ -1,0 +1,190 @@
+*{
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+*,*::before,*::after{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+:focus,::active{outline:none;}
+a:focus,a:active{outline: ;}
+
+nav,footer,header,aside{display: block;}
+
+html,body{
+	height: 100%;
+	width: 100%;
+	font-size: 100%;
+	line-height: 1;
+	font-size: 14px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+input,button,textarea{font-family: inherit;}
+
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding: 0;border:0;}
+a, a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+
+h1,h2,h3,h4.h5,h6{font-size: inherit;font-weight: 400;}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #1d1f21;
+  color: #e3e3e3;
+  padding: 20px;
+}
+
+/* Заголовок */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4cd3ff;
+}
+
+/* ===== ТАБЫ ===== */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: #333;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.tab.active {
+  background: #4cd3ff;
+  color: #000;
+  font-weight: bold;
+}
+
+/* ===== БЛОК ПОДРАБОТОК (НОВЫЙ, КРАСИВЫЙ И АККУРАТНЫЙ) ===== */
+.extras-panel {
+  max-width: 900px;
+  margin: 0 auto 20px auto;
+  background: #2a2c2f;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #0006;
+}
+
+.extras-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+.extras-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.extras-field label {
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #bfc8d1;
+}
+
+.extras-field input,
+.extras-field select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #1f2022;
+  color: #fff;
+  min-width: 150px;
+}
+
+/* Кнопки */
+.extras-btn {
+  padding: 10px 16px;
+  background: #4cd3ff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.extras-btn:hover {
+  background: #35bde8;
+}
+
+.extras-btn.danger {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+.extras-btn.danger:hover {
+  background: #d93636;
+}
+
+/* ===== КАЛЕНДАРЬ ===== */
+#calendar, #nextCalendar {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background: #292b2e;
+}
+
+td {
+  background: #202224;
+}
+
+/* ===== СМЕНЫ ===== */
+
+.day-shift {
+  background: #fff3b0;
+  color: #000;
+}
+
+.night-shift {
+  background: #b0d8ff;
+  color: #000;
+}
+
+.today {
+  outline: 3px solid #ff4d4d;
+  background: #ffeaea !important;
+  color: #000;
+  font-weight: bold;
+}
+
+.extra-shift {
+  box-shadow: inset 0 0 0 2px #ff8c00;
+}
+
+.extra {
+  outline: 2px solid red;
+  background-color: #ff35e5;
+}

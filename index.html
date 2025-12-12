@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>График смен</title>
+
+  <!-- Твой reset -->
+  <link rel="stylesheet" href="reset.css">
+
+  <!-- Основные стили -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <h1>График работы УПС 4-х бригадка по 12 часов</h1>
+
+<div class="tabs">
+    <button class="tab active" data-team="2">2 бригада</button>
+    <button class="tab" data-team="3">3 бригада</button>
+    <button class="tab" data-team="4">4 бригада</button>
+    <button class="tab" data-team="1">1 бригада</button>
+</div>
+
+<!-- 🔥 БЛОК ПОДРАБОТОК -->
+<div class="extras-panel">
+    <div class="extras-row">
+
+        <div class="extras-field">
+            <label for="extraDate">Дата:</label>
+            <input type="date" id="extraDate">
+        </div>
+
+        <div class="extras-field">
+            <label for="extraType">Тип смены:</label>
+            <select id="extraType">
+                <option value="Д1">Дневная 1</option>
+                <option value="Д2">Дневная 2</option>
+                <option value="Н1">Ночная 1</option>
+                <option value="Н2">Ночная 2</option>
+            </select>
+        </div>
+
+        <button id="addExtraBtn" class="extras-btn">Добавить</button>
+        <button id="clearExtrasBtn" class="extras-btn danger">Очистить</button>
+
+    </div>
+</div>
+<!-- 🔥 КОНЕЦ БЛОКА -->
+
+<div id="calendar"></div>
+<div id="nextCalendar"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
