@@ -16,7 +16,7 @@
 
 - **HTML**
 - **CSS**
-- **JavaScript (vanilla)**
+- **JavaScript**
 
 ---
 
