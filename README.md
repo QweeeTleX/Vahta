@@ -40,5 +40,8 @@
 /vahta
 ├── index.html
 ├── styles.css
-└── script.js
+├── script.js
+├── README.md
+└── assets/
+    └── preview_vahta.jpg
 ```
