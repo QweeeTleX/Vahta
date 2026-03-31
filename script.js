@@ -1,5 +1,3 @@
-/* ======================= ОСНОВНЫЕ ДАННЫЕ ========================= */
-
 const cycles = {
     1: ["Отсыпной","В","Д1","Д2","В","В","Н1","Н2"],
     2: ["Д1","Д2","В","В","Н1","Н2","Отсыпной","В"],
@@ -19,8 +17,8 @@ const label = {
 const cycleStart = new Date(2025, 10, 26);
 
 let extraShifts = [];
+let removedShifts = [];
 
-/* ======================= УТИЛИТЫ ========================= */
 
 function dateKey(date) {
     return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
@@ -37,9 +35,14 @@ function getExtra(date) {
     return extraShifts.find(s => s.date === dateKey(date));
 }
 
-/* ======================= ПОЛУЧИТЬ СМЕНУ ========================= */
 
 function getShift(date, team) {
+    const key = dateKey(date);
+
+    if (removedShifts.includes(key)) {
+        return null;
+    }
+
     const extra = getExtra(date);
     if (extra) return extra.code;
 
@@ -50,31 +53,30 @@ function getShift(date, team) {
     return cycle[index];
 }
 
-/* ======================= ОТРИСОВКА ТЕКУЩЕГО МЕСЯЦА ========================= */
 
 function generateCalendar(team) {
     const now = new Date();
     renderMonth(now.getFullYear(), now.getMonth(), team, "calendar");
 }
 
-/* ======================= ОТРИСОВКА СЛЕДУЮЩЕГО МЕСЯЦА ========================= */
-
 function generateNextMonthCalendar(team) {
     const now = new Date();
-    const next = new Date(now.getFullYear(), now.getMonth()+1, 1);
+    const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     renderMonth(next.getFullYear(), next.getMonth(), team, "nextCalendar");
 }
 
-/* ======================= ОБЩАЯ ОТРИСОВКА МЕСЯЦА ========================= */
-
 function renderMonth(year, month, team, targetId) {
     const first = new Date(year, month, 1);
-    const last = new Date(year, month+1, 0);
+    const last = new Date(year, month + 1, 0);
+    const todayKey = dateKey(new Date());
 
     let html = `
         <h2>${first.toLocaleString("ru", { month: "long", year: "numeric" })}</h2>
         <table>
-        <tr><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>
+        <tr>
+            <th>Пн</th><th>Вт</th><th>Ср</th>
+            <th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th>
+        </tr>
         <tr>
     `;
 
@@ -85,11 +87,23 @@ function renderMonth(year, month, team, targetId) {
         const date = new Date(year, month, day);
         const shift = getShift(date, team);
         const extra = getExtra(date);
+        const isToday = dateKey(date) === todayKey;
+
+        if (shift === null) {
+            html += `
+                <td class="removed">
+                    <b>${day}</b><br>—
+                </td>
+            `;
+            if ((date.getDay() || 7) === 7) html += "</tr><tr>";
+            continue;
+        }
 
         const cls =
             (shift.startsWith("Д") ? "day-shift" :
              shift.startsWith("Н") ? "night-shift" : "") +
-            (extra ? " extra-shift" : "");
+            (extra ? " extra-shift extra" : "") +
+            (isToday ? " today" : "");
 
         html += `
             <td class="${cls}">
@@ -102,17 +116,18 @@ function renderMonth(year, month, team, targetId) {
     }
 
     html += "</tr></table>";
-
     document.getElementById(targetId).innerHTML = html;
 }
 
-/* ======================= ПОДРАБОТКИ ========================= */
 
 document.getElementById("addExtraBtn").addEventListener("click", () => {
     const dateStr = document.getElementById("extraDate").value;
     const type = document.getElementById("extraType").value;
 
-    if (!dateStr) { alert("Выбери дату"); return; }
+    if (!dateStr) {
+        alert("Выбери дату");
+        return;
+    }
 
     const idx = extraShifts.findIndex(s => s.date === dateStr);
 
@@ -122,8 +137,9 @@ document.getElementById("addExtraBtn").addEventListener("click", () => {
         extraShifts.push({ date: dateStr, code: type });
     }
 
-    const team = Number(document.querySelector(".tab.active").dataset.team);
+    removedShifts = removedShifts.filter(d => d !== dateStr);
 
+    const team = Number(document.querySelector(".tab.active").dataset.team);
     generateCalendar(team);
     generateNextMonthCalendar(team);
 });
@@ -138,7 +154,26 @@ document.getElementById("clearExtrasBtn").addEventListener("click", () => {
     generateNextMonthCalendar(team);
 });
 
-/* ======================= ТАБЫ ========================= */
+
+document.getElementById("removeShiftBtn").addEventListener("click", () => {
+    const dateStr = document.getElementById("extraDate").value;
+
+    if (!dateStr) {
+        alert("Выбери дату");
+        return;
+    }
+
+    if (!removedShifts.includes(dateStr)) {
+        removedShifts.push(dateStr);
+    }
+
+    extraShifts = extraShifts.filter(s => s.date !== dateStr);
+
+    const team = Number(document.querySelector(".tab.active").dataset.team);
+    generateCalendar(team);
+    generateNextMonthCalendar(team);
+});
+
 
 document.querySelectorAll(".tab").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -146,13 +181,11 @@ document.querySelectorAll(".tab").forEach(btn => {
         btn.classList.add("active");
 
         const team = Number(btn.dataset.team);
-
         generateCalendar(team);
         generateNextMonthCalendar(team);
     });
 });
 
-/* ======================= ПЕРВЫЙ ЗАПУСК ========================= */
 
 generateCalendar(2);
 generateNextMonthCalendar(2);
